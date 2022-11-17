@@ -1,0 +1,46 @@
+pipeline {
+    agent { docker { image 'python:3.10.7-alpine' } }
+
+    stages {
+        stage('Download') {
+            steps {
+                echo 'Downloading...'
+            }
+        }
+
+        stage('Run bash') {
+            steps {
+                echo 'Running bash...'
+                sh 'chmod u+x bash.sh'
+                sh './bash.sh'
+            }
+        }
+
+        stage('Check') {
+            steps {
+                echo 'Checking...'
+                sh 'python --version'
+            }
+        }
+
+        stage('Run') {
+            steps {
+                echo 'Running...'
+                sh 'pip install -r requirements.txt'
+                sh 'python fake.py'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
+        }
+    }
+}
